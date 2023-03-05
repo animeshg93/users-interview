@@ -31,8 +31,8 @@ public class UserControllerTest {
         user.setAge(19);
         user.setFirstName("John");
         user.setLastName("Lobo");
-        user.setId("id");
         user.setCountry("USA");
+        user.setTitle("Engineer");
     }
 
     @Test
@@ -66,6 +66,13 @@ public class UserControllerTest {
     public void testGetAll(){
         when(userRepository.findAll()).thenReturn(Collections.singletonList(user));
         ResponseEntity<Object> response =  userController.getAll();
+        Assertions.assertEquals("200 OK", response.getStatusCode().toString());
+    }
+
+    @Test
+    public void testGetUsersByTitle(){
+        when(userRepository.findUsersByTitle("Engineer")).thenReturn(Collections.singletonList(user));
+        ResponseEntity<Object> response =  userController.getUsersByTitle("Engineer");
         Assertions.assertEquals("200 OK", response.getStatusCode().toString());
     }
 

@@ -48,6 +48,13 @@ public class UserController {
 
     }
 
+    @GetMapping("/getUsersByTitle")
+    public ResponseEntity<Object> getUsersByTitle(@RequestParam(value = "title") String title){
+        List<User> users = userRepository.findUsersByTitle(title);
+
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
     @GetMapping("/getAll")
     public ResponseEntity<Object> getAll(){
         List<User> userList = userRepository.findAll();
@@ -61,7 +68,7 @@ public class UserController {
     public ResponseEntity<Object> updateWithUserName(@RequestBody User user){
         String userName = user.getUserName();
         deleteUser(userName);
-        logger.info("Adding new user with same username");
+        logger.debug("Adding new user with same username '{}'", userName);
         userRepository.save(user);
 
         return new ResponseEntity<>
@@ -76,7 +83,7 @@ public class UserController {
             throw new UserNotFoundException(userName);
         }
 
-        logger.info("Deleting existing user");
+        logger.debug("Deleting user '{}", userName);
         userRepository.delete(currentUser);
 
         return new ResponseEntity<>

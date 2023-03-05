@@ -11,12 +11,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @ToString
 @Document
 public class User {
-    @Id
-    private String id;
     private String userName;
     private String firstName;
     private String lastName;
     private int age;
-    //might change this to enum
+    private String title;
     private String country;
 }
